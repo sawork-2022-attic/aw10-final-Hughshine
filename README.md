@@ -1,20 +1,43 @@
-# aw10-final
+> This is a pure mirror of aw09
+# aw09
 
+Services:
+1. Gateway
+    * infer routes automatically with Nacos, Like, `GET localhost:10300/carts/api/all`
+2. Cart
+    * Get/Update/Checkout
+3. Product
+    * Batch, non-reactive
+    * Search/Get
+4. Order
+    * CreateOrder, push message to rabbitmq
+5. Delivery
+    * message consumer, createDelivery
+    * Get
 
-Please develop a **fully functional** online purchase order system.
+Third-party services (`docker-compose.yml`):
+1. Nacos, service registery
+2. Mongodb
+3. Rabbitmq
 
-- It should have a superb collection of goods merchandises
-- Customer can browse/search for merchandises, add selected one into his shopping cart and checkout to complete a transaction.
-- User can get delivery status updates continuously.
+![](./assets/arch.png)
 
-The system should be of a **reactive architecture**, which means it should be 
+Reactive: 
+1. Responsive, using WebFlux stack (except product-batch).
+2. Resilient, backpressure.
+3. Elastic, easy to scale out with containerization.
+4. Message driven, use REST & Rabbitmq for service communication.
 
--  Responsive: it should response to the user request timely.
--  Resilient: it should not be easily broken down.
--  Elastic: it should be flexible to scale out.
--  Message Driven: it should has loosely coupled components that communicates with each other asynchronously.
+## 压力测试
 
+可以发现（尤其1500并发访问测试），响应式架构的被压机制让服务在大流量下不会过载。
 
-Please design tests/experiements to demostrate that your system fulfills such requirements as stated in [The Reactive Manifesto](https://www.reactivemanifesto.org)
+500并发访问：
 
-**Submit your codes/documents/tests/experiements of your system.**
+![](./assets/reactor-500.png)
+
+1500并发访问：
+
+![](./assets/reactor-1500.png)
+
+> Thanks for mates' great work, I refer (the choice of arch) to some of those.

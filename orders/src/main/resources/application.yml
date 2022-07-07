@@ -1,0 +1,23 @@
+server:
+  port: 11100
+project:
+  version: "0.0.1"
+spring:
+  application:
+    name: "orders"
+  data:
+    mongodb:
+      database: "micropos"
+      host: "localhost"
+      port: 10500
+  cloud:
+    nacos.discovery.server-addr: "http://localhost:10400"
+    function:
+      definition: createDeliver
+    stream:
+      function:
+        bindings:
+          createDeliver-out-0: deliver
+      bindings:
+        deliver:
+          destination: deliver
